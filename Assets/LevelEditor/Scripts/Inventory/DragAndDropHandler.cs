@@ -1,39 +1,102 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
-public class DragAndDropHandler : MonoBehaviour, IPointerClickHandler
+public class DragAndDropHandler : MonoBehaviour
 {
-    public GameObject prefab;  // Prefab associated with this slot
-    private GameObject grabbedObject;
-    private bool isSelected = false;
+    public GameObject prefab; // Prefab to spawn
+    private GameObject spawnedObject; // The object currently being dragged
+    private XRRayInteractor rayInteractor; // The ray interactor from the controller
 
-    void Update()
+    public InputActionReference leftGrabAction; // Input action for left controller grab
+    public InputActionReference rightGrabAction; // Input action for right controller grab
+
+    public GameObject inventory; // This should be referenced in the scene
+
+    void Start()
     {
-        // Only handle dragging if this slot is selected
-        if (isSelected)
-        {
-            if (Input.GetButtonDown("Fire1") && grabbedObject == null)
-            {
-                // Instantiate the prefab at controller tip
-                grabbedObject = Instantiate(prefab, transform.position, transform.rotation);
-                grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
-                grabbedObject.transform.SetParent(transform); // Attach to VR controller
-            }
+        // Find the XRRayInteractor in the scene
+        rayInteractor = FindObjectOfType<XRRayInteractor>();
 
-            if (Input.GetButtonUp("Fire1") && grabbedObject != null)
+        if (rayInteractor == null)
+        {
+            Debug.LogError("No XRRayInteractor found in the scene. Ensure your controller has one.");
+        }
+
+        // Find the Inventory in the scene if it's not already assigned
+        if (inventory == null)
+        {
+            inventory = GameObject.Find("Inventory"); // Adjust the name to your Inventory GameObject
+            if (inventory == null)
             {
-                // Place the object in the scene
-                grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-                grabbedObject.transform.SetParent(null); // Detach from controller
-                grabbedObject = null;
-                isSelected = false; // Deselect after placing
+                Debug.LogError("No Inventory found in the scene. Please assign an inventory.");
             }
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    void Update()
     {
-        Debug.Log("Selected = true");
-        isSelected = true;  // Select this inventory slot when clicked
+        if (rayInteractor == null || prefab == null)
+            return;
+
+        bool leftGripPressed = leftGrabAction != null && leftGrabAction.action != null && leftGrabAction.action.triggered;
+        bool rightGripPressed = rightGrabAction != null && rightGrabAction.action != null && rightGrabAction.action.triggered;
+
+        if ((leftGripPressed || rightGripPressed) && IsRayHoveringOverSlot())
+        {
+            if (spawnedObject == null)
+            {
+                SpawnObjectAtRay();
+                DeactivateInventory(); // Deactivate the inventory when grabbing
+            }
+        }
+
+        if (spawnedObject != null && !(leftGripPressed || rightGripPressed))
+        {
+            ReleaseObject();
+            ActivateInventory(); // Activate the inventory when releasing
+        }
+    }
+
+    private bool IsRayHoveringOverSlot()
+    {
+        if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        {
+            if (hit.transform == transform) // Check if this slot is being hovered
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void SpawnObjectAtRay()
+    {
+        Transform attachTransform = rayInteractor.attachTransform;
+        spawnedObject = Instantiate(prefab, attachTransform.position, attachTransform.rotation);
+        spawnedObject.transform.SetParent(attachTransform);
+    }
+
+    private void ReleaseObject()
+    {
+        spawnedObject.transform.SetParent(null);
+        spawnedObject = null;
+    }
+
+    private void DeactivateInventory()
+    {
+        if (inventory != null)
+        {
+            inventory.SetActive(false);
+        }
+    }
+
+    private void ActivateInventory()
+    {
+        if (inventory != null)
+        {
+            inventory.SetActive(true);
+        }
     }
 }
