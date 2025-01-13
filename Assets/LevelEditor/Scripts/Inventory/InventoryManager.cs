@@ -58,7 +58,6 @@ public class InventoryManager : MonoBehaviour
                     GenerateAndSaveThumbnail(prefab, iconPath);
                 }
 
-                // Load the saved thumbnail
                 if (File.Exists(iconPath))
                 {
                     byte[] fileData = File.ReadAllBytes(iconPath);

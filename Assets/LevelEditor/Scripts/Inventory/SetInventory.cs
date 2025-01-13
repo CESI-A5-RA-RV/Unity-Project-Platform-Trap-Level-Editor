@@ -4,24 +4,35 @@ using UnityEngine.InputSystem;
 public class SetIn : MonoBehaviour
 {
     public GameObject Inventory;
-    public GameObject Anchor;
-    public InputActionReference toggleInventoryAction; // Assign this in the Inspector
+    public GameObject LeftAnchor;
+    public GameObject RightAnchor;
+    public InputActionReference toggleInventoryLeftAction;
+    public InputActionReference toggleInventoryRightAction;
 
     private bool UIActive;
+    private GameObject activeAnchor;
 
     private void OnEnable()
     {
-        if (toggleInventoryAction != null)
+        if (toggleInventoryLeftAction != null)
         {
-            toggleInventoryAction.action.performed += OnToggleInventory;
+            toggleInventoryLeftAction.action.performed += OnToggleInventoryLeft;
+        }
+        if (toggleInventoryRightAction != null)
+        {
+            toggleInventoryRightAction.action.performed += OnToggleInventoryRight;
         }
     }
 
     private void OnDisable()
     {
-        if (toggleInventoryAction != null)
+        if (toggleInventoryLeftAction != null)
         {
-            toggleInventoryAction.action.performed -= OnToggleInventory;
+            toggleInventoryLeftAction.action.performed -= OnToggleInventoryLeft;
+        }
+        if (toggleInventoryRightAction != null)
+        {
+            toggleInventoryRightAction.action.performed -= OnToggleInventoryRight;
         }
     }
 
@@ -29,20 +40,40 @@ public class SetIn : MonoBehaviour
     {
         Inventory.SetActive(false);
         UIActive = false;
+        activeAnchor = null;
     }
 
-    private void OnToggleInventory(InputAction.CallbackContext context)
+    private void OnToggleInventoryLeft(InputAction.CallbackContext context)
+    {
+        ToggleInventory(LeftAnchor);
+    }
+
+    private void OnToggleInventoryRight(InputAction.CallbackContext context)
+    {
+        ToggleInventory(RightAnchor);
+    }
+
+    private void ToggleInventory(GameObject anchor)
     {
         UIActive = !UIActive;
         Inventory.SetActive(UIActive);
+
+        if (UIActive)
+        {
+            activeAnchor = anchor;
+        }
+        else
+        {
+            activeAnchor = null;
+        }
     }
 
     private void Update()
     {
-        if (UIActive)
+        if (UIActive && activeAnchor != null)
         {
-            Inventory.transform.position = Anchor.transform.position;
-            Inventory.transform.eulerAngles = new Vector3(Anchor.transform.eulerAngles.x + 15, Anchor.transform.eulerAngles.y, 0);
+            Inventory.transform.position = activeAnchor.transform.position;
+            Inventory.transform.rotation = activeAnchor.transform.rotation;
         }
     }
 }

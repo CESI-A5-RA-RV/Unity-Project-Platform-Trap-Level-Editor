@@ -1,67 +1,39 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragAndDropHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DragAndDropHandler : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject prefab; // Assign the prefab linked to this thumbnail
-    private GameObject draggedInstance;
-    private Camera mainCamera;
+    public GameObject prefab;  // Prefab associated with this slot
+    private GameObject grabbedObject;
+    private bool isSelected = false;
 
-    void Start()
+    void Update()
     {
-        mainCamera = Camera.main;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (prefab != null)
+        // Only handle dragging if this slot is selected
+        if (isSelected)
         {
-            draggedInstance = Instantiate(prefab);
-            draggedInstance.SetActive(false);
+            if (Input.GetButtonDown("Fire1") && grabbedObject == null)
+            {
+                // Instantiate the prefab at controller tip
+                grabbedObject = Instantiate(prefab, transform.position, transform.rotation);
+                grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+                grabbedObject.transform.SetParent(transform); // Attach to VR controller
+            }
+
+            if (Input.GetButtonUp("Fire1") && grabbedObject != null)
+            {
+                // Place the object in the scene
+                grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
+                grabbedObject.transform.SetParent(null); // Detach from controller
+                grabbedObject = null;
+                isSelected = false; // Deselect after placing
+            }
         }
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (draggedInstance != null)
-        {
-            draggedInstance.SetActive(true);
-
-            Vector3 screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCamera.nearClipPlane);
-            Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPoint);
-
-            draggedInstance.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0);
-        }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (draggedInstance != null)
-        {
-            draggedInstance.transform.position = GetValidDropPosition();
-
-            AddObjectManipulator(draggedInstance);
-
-            draggedInstance = null;
-        }
-    }
-
-    private Vector3 GetValidDropPosition()
-    {
-        // Example: Drop prefab on ground plane
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            return hit.point;
-        }
-
-        // Default position if no valid drop target
-        return mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
-    }
-
-    private void AddObjectManipulator(GameObject obj)
-    {
-        ObjectManipulator manipulator = obj.AddComponent<ObjectManipulator>();
-        manipulator.EnableManipulation();
+        Debug.Log("Selected = true");
+        isSelected = true;  // Select this inventory slot when clicked
     }
 }
