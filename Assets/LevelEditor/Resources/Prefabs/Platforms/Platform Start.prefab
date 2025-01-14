@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6581443949971158542}
   - component: {fileID: 921289426570511780}
   - component: {fileID: 8910078464219514820}
+  - component: {fileID: 334603056133357408}
   m_Layer: 0
   m_Name: Platform Start
   m_TagString: Platform
@@ -297,6 +298,27 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!65 &334603056133357408
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652329573806549489}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.29582256, y: 0.0388373, z: 0.29722142}
+  m_Center: {x: 0.0023860633, y: -0.0007806942, z: 0.0019335151}
 --- !u!1 &6872731319476190664
 GameObject:
   m_ObjectHideFlags: 0

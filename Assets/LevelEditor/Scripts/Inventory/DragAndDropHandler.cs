@@ -75,7 +75,7 @@ public class DragAndDropHandler : MonoBehaviour
     {
         Transform attachTransform = rayInteractor.attachTransform;
         spawnedObject = Instantiate(prefab, attachTransform.position, attachTransform.rotation);
-        spawnedObject.transform.SetParent(attachTransform);
+        //spawnedObject.transform.SetParent(attachTransform);
     }
 
     private void ReleaseObject()
