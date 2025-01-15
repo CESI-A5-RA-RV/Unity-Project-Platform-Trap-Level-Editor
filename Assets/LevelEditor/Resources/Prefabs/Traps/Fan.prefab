@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 2172842677902751189}
   - component: {fileID: 8836968308043593493}
   - component: {fileID: 2415432238375964606}
+  - component: {fileID: 6788399636354679966}
   m_Layer: 0
   m_Name: Cylinder.001
   m_TagString: Untagged
@@ -195,6 +196,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &6788399636354679966
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3856198667389339191}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5721221079948778069
 GameObject:
   m_ObjectHideFlags: 0
@@ -5123,6 +5151,7 @@ GameObject:
   - component: {fileID: 3891713430937139885}
   - component: {fileID: -2538771472650832478}
   - component: {fileID: 6322452999172094813}
+  - component: {fileID: 6718609752848600534}
   m_Layer: 0
   m_Name: Fan
   m_TagString: Trap
@@ -5172,7 +5201,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -5328,6 +5357,27 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!65 &6718609752848600534
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7517691750791512434}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.576568, y: 15.084617, z: 15.617878}
+  m_Center: {x: 3.5146658, y: -0.026250362, z: -14.133757}
 --- !u!1 &8150844666696493316
 GameObject:
   m_ObjectHideFlags: 0
@@ -5341,7 +5391,7 @@ GameObject:
   - component: {fileID: 2330382089876034011}
   - component: {fileID: 4954682412007727153}
   - component: {fileID: 2094571050312120158}
-  - component: {fileID: 6415530169958289452}
+  - component: {fileID: 5343567900482049403}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -5462,19 +5512,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!153 &6415530169958289452
+--- !u!153 &5343567900482049403
 ConfigurableJoint:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8150844666696493316}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 6788399636354679966}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 3.1809533, y: 6.75, z: -14.104536}
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
   serializedVersion: 3
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
