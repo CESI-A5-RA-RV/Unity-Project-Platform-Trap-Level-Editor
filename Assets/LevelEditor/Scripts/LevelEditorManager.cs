@@ -1,16 +1,30 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Microsoft.MixedReality.Toolkit.Experimental.UI;
 
 public class LevelEditorManager : MonoBehaviour
 {
-    public Transform buildingZone; // The designated Building Zone in the scene
-    private string savePath; // Save path for the JSON file
+    public Transform buildingZone;
+    public GameObject uiPanel;
+    public TMP_InputField levelNameInputField;
+    public TMP_Dropdown levelDropdown;
+    public Button exitEditModeButton;
+    public RectTransform movingElement;
+    public TMP_Text messageDisplay; // TextMesh for error/warning messages
+
+    private string savePath;
     public MultiLevelData multiLevelData = new MultiLevelData();
 
-    private int currentLevelId = 0; // Auto-increment ID for new levels
+    private int currentLevelId = 0;
     private LevelData currentEditingLevel = null;
+    private bool isCreatingNewLevel = false;
+
+    private Vector2 movingElementOriginalPosition;
 
     void Start()
     {
@@ -25,6 +39,11 @@ public class LevelEditorManager : MonoBehaviour
         multiLevelData.levels = new List<LevelData>();
         HideBuildingZone();
         LoadLevelsFromJson();
+
+        movingElementOriginalPosition = movingElement.anchoredPosition;
+
+        exitEditModeButton.onClick.AddListener(ExitEditMode);
+        HideUI();
     }
 
     private void ShowBuildingZone()
@@ -37,30 +56,101 @@ public class LevelEditorManager : MonoBehaviour
         buildingZone.gameObject.SetActive(false);
     }
 
-    public void CreateNewLevel(string newLevelName = null)
+    private void ShowUI(string defaultName)
     {
-        ShowBuildingZone();
-        if (newLevelName == null || newLevelName == "")
-        {
-            newLevelName = $"Level ({currentLevelId + 1})";
-        }
+        uiPanel.SetActive(true);
 
-        // Check if level name already exists and update it
-        newLevelName = EnsureUniqueLevelName(newLevelName);
+        levelNameInputField.text = "";
+        levelNameInputField.placeholder.GetComponent<TMP_Text>().text = defaultName;
+
+        movingElement.anchoredPosition = movingElementOriginalPosition + new Vector2(0, 127);
+
+        // Clear the message display
+        messageDisplay.text = "";
+    }
+
+    private void HideUI()
+    {
+        uiPanel.SetActive(false);
+        NonNativeKeyboard.Instance.Close();
+        movingElement.anchoredPosition = movingElementOriginalPosition;
+    }
+
+    public void CreateNewLevel()
+    {
+        isCreatingNewLevel = true;
+
+        levelNameInputField.gameObject.SetActive(true);
+        levelDropdown.gameObject.SetActive(false);
+
+        string defaultName = $"Level ({currentLevelId + 1})";
+        ShowUI(defaultName);
+
+        // Update exit button text
+        exitEditModeButton.GetComponentInChildren<TMP_Text>().text = "Exit Creation Mode";
+
+        ShowBuildingZone();
 
         currentEditingLevel = new LevelData
         {
             id = currentLevelId,
-            levelName = newLevelName,
+            levelName = defaultName,
             elements = new List<ElementData>()
         };
+
         Debug.Log("Building zone activated for new level.");
+    }
+
+    public void EditExistingLevelMode()
+    {
+        isCreatingNewLevel = false;
+
+        levelNameInputField.gameObject.SetActive(false);
+        levelDropdown.gameObject.SetActive(true); // Show dropdown
+
+        PopulateDropdownWithLevels(); // Populate dropdown with level names
+
+        ShowUI("Select a level to edit");
+        exitEditModeButton.GetComponentInChildren<TMP_Text>().text = "Exit Edit Mode";
+
+        ShowBuildingZone();
+    }
+
+    private void PopulateDropdownWithLevels()
+    {
+        levelDropdown.ClearOptions();
+
+        List<string> levelNames = new List<string>();
+        foreach (var level in multiLevelData.levels)
+        {
+            levelNames.Add(level.levelName);
+        }
+
+        levelDropdown.AddOptions(levelNames);
+        levelDropdown.onValueChanged.RemoveAllListeners();
+        levelDropdown.onValueChanged.AddListener(OnDropdownLevelSelected);
+    }
+
+    private void OnDropdownLevelSelected(int index)
+    {
+        Debug.Log($"OnDropdownLevelSelected: {index}");
+        if (index < 0 || index >= multiLevelData.levels.Count)
+        {
+            Debug.LogError("Invalid level selected.");
+            return;
+        }
+
+        int selectedLevelId = multiLevelData.levels[index].id;
+        EditExistingLevel(selectedLevelId);
     }
 
     public void EditExistingLevel(int levelId)
     {
-        ShowBuildingZone();
+        Debug.Log($"EditExistingLevel: {levelId}");
+        isCreatingNewLevel = false;
+
         ClearBuildingZone();
+
         currentEditingLevel = multiLevelData.levels.Find(level => level.id == levelId);
 
         if (currentEditingLevel == null)
@@ -69,15 +159,15 @@ public class LevelEditorManager : MonoBehaviour
             return;
         }
 
+        ShowUI(currentEditingLevel.levelName);
+
         foreach (var element in currentEditingLevel.elements)
         {
-            // Try loading the prefab from both "Traps" and "Platforms" folders
             GameObject prefab = Resources.Load<GameObject>($"Prefabs/Traps/{element.elementType}") ??
                                 Resources.Load<GameObject>($"Prefabs/Platforms/{element.elementType}");
 
             if (prefab)
             {
-                Debug.Log($"Prefab found for {element.elementType}");
                 GameObject instance = Instantiate(prefab, buildingZone);
                 instance.transform.localPosition = new Vector3(element.position.x, element.position.y, element.position.z);
                 instance.transform.localScale = new Vector3(element.size.x, element.size.y, element.size.z);
@@ -85,7 +175,7 @@ public class LevelEditorManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"Prefab not found for {element.elementType}");
+                DisplayMessage($"Prefab not found for {element.elementType}", true);
             }
         }
 
@@ -94,16 +184,22 @@ public class LevelEditorManager : MonoBehaviour
 
     public void SaveCurrentLevel()
     {
+        if (levelNameInputField != null && !string.IsNullOrWhiteSpace(levelNameInputField.text))
+        {
+            currentEditingLevel.levelName = levelNameInputField.text.Trim();
+        }
+
         currentEditingLevel.elements = GetElementsFromBuildingZone();
 
         if (currentEditingLevel == null)
         {
-            Debug.LogWarning("No level currently being edited!");
+            DisplayMessage("No level currently being edited!", true);
             return;
         }
+
         if (currentEditingLevel.elements.Count == 0 || !HasRequiredElements(currentEditingLevel.elements))
         {
-            Debug.LogWarning("Level must have 'Platform Start' and 'Platform End' elements, and each must have at most one copy.");
+            DisplayMessage("Level must have 'Platform Start' and 'Platform End' elements, each with at most one copy.", true);
             return;
         }
 
@@ -114,8 +210,17 @@ public class LevelEditorManager : MonoBehaviour
         }
 
         SaveToJson();
-        Debug.Log($"Level saved: {currentEditingLevel.levelName}");
+        DisplayMessage($"Level saved: {currentEditingLevel.levelName}", false);
+
+        HideUI();
         HideBuildingZone();
+    }
+
+    private void ExitEditMode()
+    {
+        Debug.Log("Exiting edit mode...");
+        HideBuildingZone();
+        HideUI();
     }
 
     private void ClearBuildingZone()
@@ -161,7 +266,7 @@ public class LevelEditorManager : MonoBehaviour
                         y = child.localRotation.eulerAngles.y,
                         z = child.localRotation.eulerAngles.z
                     },
-                    parameters = new List<Parameter>() 
+                    parameters = new List<Parameter>()
                 };
 
                 elements.Add(elementData);
@@ -169,6 +274,45 @@ public class LevelEditorManager : MonoBehaviour
         }
 
         return elements;
+    }
+
+    private void DisplayMessage(string message, bool isError)
+    {
+        messageDisplay.color = isError ? Color.red : Color.green;
+        messageDisplay.text = message;
+    }
+
+    private bool HasRequiredElements(List<ElementData> elements)
+    {
+        bool hasStartPlatform = false;
+        bool hasEndPlatform = false;
+
+        foreach (var element in elements)
+        {
+            if (Regex.IsMatch(element.elementType, @"^Platform Start(?: \(\d+\))?$"))
+            {
+                if (hasStartPlatform)
+                {
+                    DisplayMessage("Duplicate 'Platform Start' detected!", true);
+                    return false;
+                }
+                hasStartPlatform = true;
+            }
+            else if (Regex.IsMatch(element.elementType, @"^Platform End(?: \(\d+\))?$"))
+            {
+                if (hasEndPlatform)
+                {
+                    DisplayMessage("Duplicate 'Platform End' detected!", true);
+                    return false;
+                }
+                hasEndPlatform = true;
+            }
+        }
+
+        if (!hasStartPlatform) DisplayMessage("'Platform Start' not found!", true);
+        if (!hasEndPlatform) DisplayMessage("'Platform End' not found!", true);
+
+        return hasStartPlatform && hasEndPlatform;
     }
 
     private void SaveToJson()
@@ -191,53 +335,4 @@ public class LevelEditorManager : MonoBehaviour
             Debug.Log($"No levels found at {savePath}. Starting fresh.");
         }
     }
-
-    private string EnsureUniqueLevelName(string baseName)
-    {
-        int count = 0;
-        string newName = baseName;
-
-        while (multiLevelData.levels.Exists(level => level.levelName == newName))
-        {
-            count++;
-            newName = $"{baseName} ({count})";
-        }
-
-        return newName;
-    }
-
-    private bool HasRequiredElements(List<ElementData> elements)
-    {
-        bool hasStartPlatform = false;
-        bool hasEndPlatform = false;
-
-        foreach (var element in elements)
-        {
-            Debug.Log($"Checking element type: {element.elementType}");
-            if (Regex.IsMatch(element.elementType, @"^Platform Start(?: \(\d+\))?$"))
-            {
-                if (hasStartPlatform)
-                {
-                    Debug.LogWarning("Duplicate 'Platform Start' detected!");
-                    return false;
-                }
-                hasStartPlatform = true;
-            }
-            else if (Regex.IsMatch(element.elementType, @"^Platform End(?: \(\d+\))?$"))
-            {
-                if (hasEndPlatform)
-                {
-                    Debug.LogWarning("Duplicate 'Platform End' detected!");
-                    return false;
-                }
-                hasEndPlatform = true;
-            }
-        }
-
-        if (!hasStartPlatform) Debug.LogWarning("'Platform Start' not found!");
-        if (!hasEndPlatform) Debug.LogWarning("'Platform End' not found!");
-
-        return hasStartPlatform && hasEndPlatform;
-    }
-
 }

@@ -7,8 +7,6 @@ using Microsoft.MixedReality.Toolkit.Experimental.UI;
 public class ShowKeyboard : MonoBehaviour
 {
     private TMP_InputField inputField;
-    public float distance = 0.5f;
-    public float verticalOffset = -0.5f;
 
     void Start()
     {
