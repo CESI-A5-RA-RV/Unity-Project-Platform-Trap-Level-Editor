@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -8,32 +9,35 @@ public class DeleteModeHandler : MonoBehaviour
     private bool isDeleteModeActive = false; // To track if delete mode is active
 
     public InputActionReference toggleDeleteModeAction; // Input action to toggle delete mode
+    public InputActionReference deleteObjectAction; // Input action to delete objects
 
     private LineRenderer lineRenderer; // Reference to the LineRenderer component
 
     private Material originalMaterial;
     public Material deleteMaterial;
 
+    public HashSet<GameObject> selectedObjects = new HashSet<GameObject>();
+    public ValidationDialog validationDialog; // Reference to the validation UI
+
+    public SelectionHandler selectionHandler;
 
     void Start()
     {
         rayInteractor = GetComponentInChildren<XRRayInteractor>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
-        if (rayInteractor == null)
+        if (rayInteractor == null || lineRenderer == null || validationDialog == null)
         {
-            Debug.LogError("No XRRayInteractor found on this controller.");
+            Debug.LogError("Missing components! Ensure RayInteractor, LineRenderer, and ValidationDialog are assigned.");
         }
 
-        if (lineRenderer == null)
+        selectionHandler = FindObjectOfType<SelectionHandler>();
+        if (selectionHandler == null)
         {
-            Debug.LogError("No LineRenderer found on this controller.");
+            Debug.LogError("SelectionHandler not found. Ensure it is in the scene.");
         }
-        else
-        {
-            // Store the original material of the LineRenderer
-            originalMaterial = lineRenderer.material;
-        }
+
+        originalMaterial = lineRenderer.material;
     }
 
     void OnEnable()
@@ -42,6 +46,12 @@ public class DeleteModeHandler : MonoBehaviour
         {
             toggleDeleteModeAction.action.performed += OnToggleDeleteMode;
             toggleDeleteModeAction.action.Enable();
+        }
+
+        if (deleteObjectAction != null && deleteObjectAction.action != null)
+        {
+            deleteObjectAction.action.performed += OnDeleteObject;
+            deleteObjectAction.action.Enable();
         }
     }
 
@@ -52,65 +62,81 @@ public class DeleteModeHandler : MonoBehaviour
             toggleDeleteModeAction.action.performed -= OnToggleDeleteMode;
             toggleDeleteModeAction.action.Disable();
         }
+
+        if (deleteObjectAction != null && deleteObjectAction.action != null)
+        {
+            deleteObjectAction.action.performed -= OnDeleteObject;
+            deleteObjectAction.action.Disable();
+        }
     }
 
     void Update()
     {
-        if (isDeleteModeActive)
-        {
-            HandleDeleteMode();
-        }
         UpdateRayColor();
     }
 
     private void OnToggleDeleteMode(InputAction.CallbackContext context)
     {
         isDeleteModeActive = !isDeleteModeActive;
-
-        if (isDeleteModeActive)
-        {
-            Debug.Log("Delete Mode Activated");
-        }
-        else
-        {
-            Debug.Log("Delete Mode Deactivated");
-        }
+        Debug.Log(isDeleteModeActive ? "Delete Mode Activated" : "Delete Mode Deactivated");
     }
 
-    private void HandleDeleteMode()
+    private void OnDeleteObject(InputAction.CallbackContext context)
     {
-        if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        if (isDeleteModeActive)
         {
-            if (hit.transform != null && (hit.transform.gameObject.CompareTag("Platform") || hit.transform.gameObject.CompareTag("Trap")))
+            var selectedObjects = selectionHandler.SelectedObjects;
+
+            Debug.Log($"Number of selected objects: {selectedObjects.Count}");
+
+            if (selectedObjects.Count > 1)
             {
-                if (Mouse.current.leftButton.wasPressedThisFrame)
-                {
-                    DeletePrefab(hit.transform.gameObject);
-                }
+                // Show validation dialog if multiple elements are selected
+                validationDialog.Show(
+                    "Many elements are selected. This action will delete all selected elements. Are you sure you want to proceed?",
+                    () => { DeleteAllSelectedObjects(selectedObjects); },
+                    () => { Debug.Log("Delete action cancelled."); }
+                );
+            }
+            else if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+            {
+                GameObject target = hit.transform.gameObject;
+                DeletePrefab(target);
             }
         }
     }
+
 
     private void DeletePrefab(GameObject prefab)
     {
         if (prefab.CompareTag("Platform") || prefab.CompareTag("Trap"))
         {
+            Debug.Log($"Deleting object: {prefab.name}");
             Destroy(prefab);
+            selectedObjects.Remove(prefab);
         }
+    }
+
+    private void DeleteAllSelectedObjects(HashSet<GameObject> selectedObjects)
+    {
+        foreach (var obj in new HashSet<GameObject>(selectedObjects))
+        {
+            if (obj != null)
+            {
+                Debug.Log($"Deleting selected object: {obj.name}");
+                Destroy(obj);
+            }
+        }
+        selectedObjects.Clear();
+        Debug.Log("All selected objects have been deleted.");
     }
 
     private void UpdateRayColor()
     {
-        if (lineRenderer != null)  // Ensure the lineRenderer is not null
+        if (lineRenderer != null)
         {
-            if (isDeleteModeActive)
-            {
-                lineRenderer.material = deleteMaterial;
-            }
-            else
-            {
-                lineRenderer.material = originalMaterial;
-            }
+            lineRenderer.material = isDeleteModeActive ? deleteMaterial : originalMaterial;
+            Debug.Log(lineRenderer.material);
         }
         else
         {

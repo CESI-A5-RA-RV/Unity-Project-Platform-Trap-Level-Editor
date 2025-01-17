@@ -6,7 +6,7 @@ public class BuildingZoneManager : MonoBehaviour
 {
     public float gridSize = 1.0f; // Size of the grid for snapping
     public Transform gridCenter; // Center of the grid (empty GameObject)
-    public float rotationSnapAngle = 90.0f; // Angle increment for rotation snapping
+    public float rotationSnapAngle = 45.0f; // Angle increment for rotation snapping
 
     private void OnTriggerEnter(Collider other)
     {

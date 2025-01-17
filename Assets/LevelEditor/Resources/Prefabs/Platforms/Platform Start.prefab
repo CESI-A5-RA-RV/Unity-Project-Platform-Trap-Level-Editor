@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 921289426570511780}
   - component: {fileID: 8910078464219514820}
   - component: {fileID: 334603056133357408}
+  - component: {fileID: -135333057147233496}
   m_Layer: 0
   m_Name: Platform Start
   m_TagString: Platform
@@ -319,6 +320,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.29582256, y: 0.0388373, z: 0.29722142}
   m_Center: {x: 0.0023860633, y: -0.0007806942, z: 0.0019335151}
+--- !u!114 &-135333057147233496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652329573806549489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6872731319476190664
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class LevelEditorManager : MonoBehaviour
     public TMP_Dropdown levelDropdown;
     public Button exitEditModeButton;
     public RectTransform movingElement;
-    public TMP_Text messageDisplay; // TextMesh for error/warning messages
+    public TMP_Text messageDisplay;
 
     private string savePath;
     public MultiLevelData multiLevelData = new MultiLevelData();
@@ -53,6 +53,7 @@ public class LevelEditorManager : MonoBehaviour
 
     private void HideBuildingZone()
     {
+        ClearBuildingZone();
         buildingZone.gameObject.SetActive(false);
     }
 

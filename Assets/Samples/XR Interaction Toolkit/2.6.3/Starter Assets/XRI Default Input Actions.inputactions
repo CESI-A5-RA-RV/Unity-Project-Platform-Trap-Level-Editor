@@ -1165,7 +1165,7 @@
                     "name": "Is Tracked",
                     "type": "Button",
                     "id": "a705ffe4-b2c8-4b78-847f-25257d4e30af",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -1597,15 +1597,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Activate Delete Mode",
-                    "type": "Button",
-                    "id": "45c23833-b8f3-413a-9e14-2b6f182b49c5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1771,17 +1762,6 @@
                     "processors": "ScaleVector2(x=0),StickDeadzone",
                     "groups": "Generic XR Controller",
                     "action": "Scale Delta",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b2e3f7d3-649a-4f6c-b1cd-c328322da5f0",
-                    "path": "<XRController>{RightHand}/{SecondaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Activate Delete Mode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -2788,6 +2768,203 @@
                     "action": "Touch Release",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Camera Controls",
+            "id": "f55e0d77-6385-40c9-a044-1098748a9457",
+            "actions": [
+                {
+                    "name": "RotateCamera",
+                    "type": "Value",
+                    "id": "26d2384f-e8d5-48c6-ba75-fe6eacdf1d0c",
+                    "expectedControlType": "Vector2",
+                    "processors": "ScaleVector2(x=0.5,y=0.5)",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MoveCamera",
+                    "type": "PassThrough",
+                    "id": "7562f784-94fa-4caf-bfd0-b3eea8a6e179",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "GrabButton",
+                    "type": "Button",
+                    "id": "7e1ed533-61a6-4db8-9b87-31222c616d5f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d6bd11b3-e4bb-4b54-bded-bd8aad4665f9",
+                    "path": "<XRController>{LeftHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9eca14f3-1a50-49ca-a5bb-b4014a5986e9",
+                    "path": "<XRController>{RightHand}/thumbstick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41ca336e-09b9-4032-a1f8-74b08739f17f",
+                    "path": "<XRController>{LeftHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ca61eb7-8c7e-4cc1-b2a4-49f886bb1bc8",
+                    "path": "<XRController>{RightHand}/devicePosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2485383-878e-4eea-a42a-c7a387ee7d36",
+                    "path": "<XRController>{LeftHand}/gripButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GrabButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e209fba-6b13-4694-93ae-c1d3be508e14",
+                    "path": "<XRController>{RightHand}/gripButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GrabButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Select Object Controls",
+            "id": "64cf8f6b-5f11-472e-8f2d-81a2726be2c4",
+            "actions": [
+                {
+                    "name": "Activate Selection Mode",
+                    "type": "Button",
+                    "id": "3bccfa60-4575-4eac-ae98-571335cd2d16",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Select Object",
+                    "type": "Button",
+                    "id": "33c2b6f7-87d5-46cb-a70c-b837fa7f683d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "65af917c-0a2d-4a84-a2c0-5ff0eccc501b",
+                    "path": "<XRController>{LeftHand}/triggerButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Object",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8297c1ec-d15c-4564-ba4e-2b288529e5cc",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate Selection Mode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Delete Object Controls",
+            "id": "2e190a92-90a4-47ce-be07-509e362dd33a",
+            "actions": [
+                {
+                    "name": "Activate Delete Mode",
+                    "type": "Button",
+                    "id": "74c8451c-d7f2-4dbe-a58f-b9dcc2dcb27b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Delete Object",
+                    "type": "Button",
+                    "id": "9fd9de34-3a1e-43b2-90a4-5e2f9f081708",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "813c5160-1a2e-459d-bdeb-6c72f1b6d809",
+                    "path": "<XRController>{RightHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate Delete Mode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42ed9d01-f147-402f-99b0-a4de75e94e6d",
+                    "path": "<XRController>{RightHand}/triggerButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Delete Object",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
