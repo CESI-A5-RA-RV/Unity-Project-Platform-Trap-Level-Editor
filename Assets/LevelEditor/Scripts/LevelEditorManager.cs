@@ -22,7 +22,6 @@ public class LevelEditorManager : MonoBehaviour
 
     private int currentLevelId = 0;
     private LevelData currentEditingLevel = null;
-    private bool isCreatingNewLevel = false;
 
     private Vector2 movingElementOriginalPosition;
 
@@ -79,8 +78,6 @@ public class LevelEditorManager : MonoBehaviour
 
     public void CreateNewLevel()
     {
-        isCreatingNewLevel = true;
-
         levelNameInputField.gameObject.SetActive(true);
         levelDropdown.gameObject.SetActive(false);
 
@@ -104,8 +101,6 @@ public class LevelEditorManager : MonoBehaviour
 
     public void EditExistingLevelMode()
     {
-        isCreatingNewLevel = false;
-
         levelNameInputField.gameObject.SetActive(false);
         levelDropdown.gameObject.SetActive(true); // Show dropdown
 
@@ -148,8 +143,6 @@ public class LevelEditorManager : MonoBehaviour
     public void EditExistingLevel(int levelId)
     {
         Debug.Log($"EditExistingLevel: {levelId}");
-        isCreatingNewLevel = false;
-
         ClearBuildingZone();
 
         currentEditingLevel = multiLevelData.levels.Find(level => level.id == levelId);

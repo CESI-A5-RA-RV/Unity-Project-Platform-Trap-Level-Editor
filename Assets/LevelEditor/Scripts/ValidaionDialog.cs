@@ -15,14 +15,6 @@ public class ValidationDialog : MonoBehaviour
     void Start()
     {
         playerCamera = Camera.main; // Get the player's main camera
-        if (messageText == null)
-        {
-            Debug.LogError("TextMesh not found in the scene!");
-        }
-        else
-        {
-            Debug.Log("TextMesh found successfully!");
-        }
 
         // Ensure buttons are properly wired
         yesButton.onClick.AddListener(OnYesClicked);

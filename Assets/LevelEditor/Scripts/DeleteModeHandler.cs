@@ -106,7 +106,6 @@ public class DeleteModeHandler : MonoBehaviour
         }
     }
 
-
     private void DeletePrefab(GameObject prefab)
     {
         if (prefab.CompareTag("Platform") || prefab.CompareTag("Trap"))
@@ -136,7 +135,6 @@ public class DeleteModeHandler : MonoBehaviour
         if (lineRenderer != null)
         {
             lineRenderer.material = isDeleteModeActive ? deleteMaterial : originalMaterial;
-            Debug.Log(lineRenderer.material);
         }
         else
         {

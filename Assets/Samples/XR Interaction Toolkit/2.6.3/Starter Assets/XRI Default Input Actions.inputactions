@@ -2967,6 +2967,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Radial Menu",
+            "id": "26815a69-6c67-4eb9-9f09-8050369f5c0c",
+            "actions": [
+                {
+                    "name": "ToggleMenu",
+                    "type": "Button",
+                    "id": "930558e5-5d16-4e31-9330-799f3e48b88a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectRadialPart",
+                    "type": "Button",
+                    "id": "ce0fcb6c-ccca-4b20-95a0-a85d1a42030a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5bb0e4d2-bf25-47ed-ab9b-4b90f66bdd06",
+                    "path": "<XRController>/menuButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd551d40-1b95-4595-ab57-fffcffe6f4ae",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectRadialPart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
