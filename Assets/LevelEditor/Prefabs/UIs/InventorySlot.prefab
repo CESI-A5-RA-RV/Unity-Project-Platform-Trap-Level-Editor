@@ -226,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1928883402443606912
 Transform:
   m_ObjectHideFlags: 0
@@ -303,6 +303,7 @@ GameObject:
   - component: {fileID: 8553237343740818486}
   - component: {fileID: 6714665722979888206}
   - component: {fileID: 1142336489094888277}
+  - component: {fileID: 4119853288912320336}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: UIElement
@@ -371,8 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
-  leftGrabAction: {fileID: -3742484312079769484, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
+  rayInteractor: {fileID: 0}
   rightGrabAction: {fileID: 15759602096507913, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   inventory: {fileID: 0}
@@ -499,3 +499,22 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4119853288912320336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8519628681713759078}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1

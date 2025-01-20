@@ -5,9 +5,7 @@ public class SetIn : MonoBehaviour
 {
     public GameObject Inventory;
     public GameObject LeftAnchor;
-    public GameObject RightAnchor;
     public InputActionReference toggleInventoryLeftAction;
-    public InputActionReference toggleInventoryRightAction;
 
     private bool UIActive;
     private GameObject activeAnchor;
@@ -18,10 +16,6 @@ public class SetIn : MonoBehaviour
         {
             toggleInventoryLeftAction.action.performed += OnToggleInventoryLeft;
         }
-        if (toggleInventoryRightAction != null)
-        {
-            toggleInventoryRightAction.action.performed += OnToggleInventoryRight;
-        }
     }
 
     private void OnDisable()
@@ -29,10 +23,6 @@ public class SetIn : MonoBehaviour
         if (toggleInventoryLeftAction != null)
         {
             toggleInventoryLeftAction.action.performed -= OnToggleInventoryLeft;
-        }
-        if (toggleInventoryRightAction != null)
-        {
-            toggleInventoryRightAction.action.performed -= OnToggleInventoryRight;
         }
     }
 
@@ -46,11 +36,6 @@ public class SetIn : MonoBehaviour
     private void OnToggleInventoryLeft(InputAction.CallbackContext context)
     {
         ToggleInventory(LeftAnchor);
-    }
-
-    private void OnToggleInventoryRight(InputAction.CallbackContext context)
-    {
-        ToggleInventory(RightAnchor);
     }
 
     private void ToggleInventory(GameObject anchor)

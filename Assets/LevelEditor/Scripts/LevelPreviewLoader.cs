@@ -82,6 +82,20 @@ public class LevelPreviewLoader : MonoBehaviour
                 instance.transform.localRotation = Quaternion.Euler(new Vector3(element.rotation.x, element.rotation.y, element.rotation.z));
 
                 levelTransforms.Add(instance.transform);
+
+                if (element.elementType == "Platform Start")
+                {
+                    GameObject characterPrefab = Resources.Load<GameObject>("Prefabs/defaultAvatar"); // Ensure the "Character" prefab path is correct
+                    if (characterPrefab)
+                    {
+                        GameObject characterInstance = Instantiate(characterPrefab, instance.transform);
+                        characterInstance.transform.localPosition = Vector3.zero; // Center the character in the middle of the platform
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Character prefab not found!");
+                    }
+                }
             }
             else
             {

@@ -24,20 +24,22 @@ public class LockIndicatorHandler : MonoBehaviour
         if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
             currentHitObject = hit.transform.gameObject;
-
-            if (currentHitObject != null)
+            if (currentHitObject.CompareTag("Platform") || currentHitObject.CompareTag("Trap"))
             {
-                // Check if the hit object is grabbable
-                XRGrabInteractable grabbable = currentHitObject.GetComponent<XRGrabInteractable>();
+                if (currentHitObject != null)
+                {
+                    // Check if the hit object is grabbable
+                    XRGrabInteractable grabbable = currentHitObject.GetComponent<XRGrabInteractable>();
 
-                if (grabbable != null && grabbable.isHovered)
-                {
-                    HideLockIcon(); // If the object is grabbable, hide the lock icon
-                }
-                else
-                {
-                    // If not grabbable, show the lock icon at the point of contact between the ray and the object
-                    ShowLockIcon(hit.point, hit.normal);
+                    if (grabbable != null && grabbable.isHovered)
+                    {
+                        HideLockIcon(); // If the object is grabbable, hide the lock icon
+                    }
+                    else
+                    {
+                        // If not grabbable, show the lock icon at the point of contact between the ray and the object
+                        ShowLockIcon(hit.point, hit.normal);
+                    }
                 }
             }
         }

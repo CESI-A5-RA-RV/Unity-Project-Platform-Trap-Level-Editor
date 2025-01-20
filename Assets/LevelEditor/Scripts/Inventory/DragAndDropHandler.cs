@@ -1,24 +1,20 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class DragAndDropHandler : MonoBehaviour
 {
     public GameObject prefab; // Prefab to spawn
     private GameObject spawnedObject; // The object currently being dragged
-    private XRRayInteractor rayInteractor; // The ray interactor from the controller
+    public XRRayInteractor rayInteractor; // The ray interactor from the controller
 
-    public InputActionReference leftGrabAction; // Input action for left controller grab
     public InputActionReference rightGrabAction; // Input action for right controller grab
 
     public GameObject inventory; // This should be referenced in the scene
 
     void Start()
     {
-        // Find the XRRayInteractor in the scene
-        rayInteractor = FindObjectOfType<XRRayInteractor>();
-
         if (rayInteractor == null)
         {
             Debug.LogError("No XRRayInteractor found in the scene. Ensure your controller has one.");
@@ -33,26 +29,49 @@ public class DragAndDropHandler : MonoBehaviour
                 Debug.LogError("No Inventory found in the scene. Please assign an inventory.");
             }
         }
+
+        if (rightGrabAction != null && rightGrabAction.action != null)
+        {
+            rightGrabAction.action.performed += OnGrabPerformed;
+            rightGrabAction.action.canceled += OnGrabCanceled;
+        }
+        else
+        {
+            Debug.LogError("Right Grab Action is not set correctly.");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (rightGrabAction != null && rightGrabAction.action != null)
+        {
+            rightGrabAction.action.performed -= OnGrabPerformed;
+            rightGrabAction.action.canceled -= OnGrabCanceled;
+        }
     }
 
     void Update()
     {
         if (rayInteractor == null || prefab == null)
             return;
+    }
 
-        bool leftGripPressed = leftGrabAction != null && leftGrabAction.action != null && leftGrabAction.action.triggered;
-        bool rightGripPressed = rightGrabAction != null && rightGrabAction.action != null && rightGrabAction.action.triggered;
-
-        if ((leftGripPressed || rightGripPressed) && IsRayHoveringOverSlot())
+    private void OnGrabPerformed(InputAction.CallbackContext context)
+    {
+        if (IsRayHoveringOverSlot())
         {
             if (spawnedObject == null)
             {
+                Debug.Log("Spawning object at ray...");
                 SpawnObjectAtRay();
                 DeactivateInventory(); // Deactivate the inventory when grabbing
             }
         }
+    }
 
-        if (spawnedObject != null && !(leftGripPressed || rightGripPressed))
+    private void OnGrabCanceled(InputAction.CallbackContext context)
+    {
+        if (spawnedObject != null)
         {
             ReleaseObject();
             ActivateInventory(); // Activate the inventory when releasing
@@ -63,7 +82,7 @@ public class DragAndDropHandler : MonoBehaviour
     {
         if (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
-            if (hit.transform == transform) // Check if this slot is being hovered
+            if (hit.transform == transform)
             {
                 return true;
             }
@@ -73,21 +92,49 @@ public class DragAndDropHandler : MonoBehaviour
 
     private void SpawnObjectAtRay()
     {
+        // Get the attachTransform of the ray interactor
         Transform attachTransform = rayInteractor.attachTransform;
+
+        // Instantiate the prefab at the interactor's position and rotation
         spawnedObject = Instantiate(prefab, attachTransform.position, attachTransform.rotation);
-        //spawnedObject.transform.SetParent(attachTransform);
+        Debug.Log("Spawned object: " + spawnedObject.name);
+
+        // Ensure the spawned object has an XRGrabInteractable component
+        XRGrabInteractable grabInteractable = spawnedObject.GetComponent<XRGrabInteractable>();
+        if (grabInteractable == null)
+        {
+            grabInteractable = spawnedObject.AddComponent<XRGrabInteractable>();
+        }
+
+        // Manually initiate the grab interaction using the Interaction Manager
+        XRInteractionManager interactionManager = rayInteractor.interactionManager;
+        if (interactionManager != null)
+        {
+            interactionManager.SelectEnter(rayInteractor as IXRSelectInteractor, grabInteractable as IXRSelectInteractable);
+            Debug.Log("Object successfully grabbed.");
+        }
+        else
+        {
+            Debug.LogWarning("Interaction Manager is missing or not assigned to the Ray Interactor.");
+        }
     }
 
     private void ReleaseObject()
     {
-        spawnedObject.transform.SetParent(null);
-        spawnedObject = null;
+        Debug.Log("Releasing object...");
+        if (spawnedObject != null)
+        {
+            spawnedObject.transform.SetParent(null);
+            Debug.Log("Object released");
+            spawnedObject = null;
+        }
     }
 
     private void DeactivateInventory()
     {
         if (inventory != null)
         {
+            Debug.Log("Deactivating inventory...");
             inventory.SetActive(false);
         }
     }
@@ -96,6 +143,7 @@ public class DragAndDropHandler : MonoBehaviour
     {
         if (inventory != null)
         {
+            Debug.Log("Activating inventory...");
             inventory.SetActive(true);
         }
     }

@@ -18,11 +18,6 @@ public class SelectionHandler : MonoBehaviour
     private HashSet<GameObject> selectedObjects = new HashSet<GameObject>(); // HashSet for selected objects
     public HashSet<GameObject> SelectedObjects => selectedObjects;
 
-    //public GameObject pieMenuPrefab; // Reference to the pie menu prefab
-    //private GameObject activePieMenu; // Active instance of the pie menu
-    //public Transform playerCamera; // Reference to the player's camera (for facing the menu)
-    //public float proximityThreshold = 4f; // Distance to trigger the pie menu
-
     void Start()
     {
         rayInteractor = GetComponentInChildren<XRRayInteractor>();
@@ -159,53 +154,4 @@ public class SelectionHandler : MonoBehaviour
             Debug.LogWarning("LineRenderer is null, check the setup.");
         }
     }
-
-    /*private void CheckProximityForPieMenu()
-    {
-        foreach (var obj in selectedObjects)
-        {
-            if (Vector3.Distance(transform.position, obj.transform.position) <= proximityThreshold)
-                // || (rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit hit) && hit.transform.gameObject == obj))
-            {
-                if (activePieMenu == null)
-                {
-                    activePieMenu = Instantiate(pieMenuPrefab);
-                    activePieMenu.SetActive(true);
-                }
-
-                PositionPieMenu(obj);
-                return;
-            }
-        }
-
-        if (activePieMenu != null)
-        {
-            Destroy(activePieMenu);
-        }
-    }*/
-
-    /*private void PositionPieMenu(GameObject obj)
-    {
-        // Calculate the direction from the object to the player
-        Vector3 directionToPlayer = playerCamera.position - obj.transform.position;
-
-        // Use the Collider to determine object size
-        Vector3 objectSize;
-        if (obj.TryGetComponent<Collider>(out Collider collider))
-        {
-            objectSize = collider.bounds.size;  // Use Collider bounds
-        }
-        else
-        {
-            objectSize = Vector3.one;
-        }
-
-        Vector3 dynamicOffset = directionToPlayer.normalized * (objectSize.magnitude * 0.5f + 1.0f);
-        dynamicOffset += new Vector3(0, 0, -0.5f);  // Adding a little offset to bring it closer
-
-        Vector3 menuPosition = obj.transform.position + dynamicOffset;
-        activePieMenu.transform.position = menuPosition;
-
-        activePieMenu.transform.rotation = Quaternion.LookRotation(directionToPlayer) * Quaternion.Euler(0, 180, 0);
-    }*/
 }
