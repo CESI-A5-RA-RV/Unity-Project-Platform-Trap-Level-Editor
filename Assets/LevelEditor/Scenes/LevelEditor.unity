@@ -5857,6 +5857,7 @@ MonoBehaviour:
   LeftAnchor: {fileID: 1914214162}
   toggleInventoryLeftAction: {fileID: -7242351881028671704, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  inventoryRayInteractor: {fileID: 1684877834}
 --- !u!4 &1242867254
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,6 @@ public class InventoryManager : MonoBehaviour
     public Button trapsButton;
     public GameObject inventorySlotPrefab; // Assign your InventorySlot prefab in the Inspector
     public XRRayInteractor rayInteractor; // The ray interactor from the controller
-    public XRRayInteractor inventoryRayInteractor;
     public string iconSavePath = "Assets/Icons"; // Path to save thumbnails
 
     void Start()

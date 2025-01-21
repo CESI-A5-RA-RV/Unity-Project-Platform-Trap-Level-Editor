@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class SetIn : MonoBehaviour
 {
     public GameObject Inventory;
     public GameObject LeftAnchor;
     public InputActionReference toggleInventoryLeftAction;
+    public XRRayInteractor inventoryRayInteractor;
 
     private bool UIActive;
     private GameObject activeAnchor;
@@ -45,10 +47,12 @@ public class SetIn : MonoBehaviour
 
         if (UIActive)
         {
+            inventoryRayInteractor.enabled = false;
             activeAnchor = anchor;
         }
         else
         {
+            inventoryRayInteractor.enabled = true;
             activeAnchor = null;
         }
     }

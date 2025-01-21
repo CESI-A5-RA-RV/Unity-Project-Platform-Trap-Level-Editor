@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 public class DragAndDropManager : MonoBehaviour
 {
     public XRRayInteractor rayInteractor; // Ray interactor for detecting inventory slots
-    public XRRayInteractor inventoryRayInteractor;
     public InputActionReference rightGrabAction; // Input action for grab
     public GameObject inventory; // Inventory GameObject
 
@@ -128,7 +127,6 @@ public class DragAndDropManager : MonoBehaviour
     {
         if (inventory != null)
         {
-            inventoryRayInteractor.enabled = true;
             inventory.SetActive(false);
         }
     }
@@ -137,7 +135,6 @@ public class DragAndDropManager : MonoBehaviour
     {
         if (inventory != null)
         {
-            inventoryRayInteractor.enabled = false;
             inventory.SetActive(true);
         }
     }
