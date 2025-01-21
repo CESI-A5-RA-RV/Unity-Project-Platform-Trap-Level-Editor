@@ -8,6 +8,8 @@ TagManager:
   - Trap
   - UIElement
   - BuildingZone
+  - FxTemporaire
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -42,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 1133340399
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

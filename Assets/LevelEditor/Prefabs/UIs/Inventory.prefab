@@ -347,6 +347,7 @@ MonoBehaviour:
   trapsButton: {fileID: 1068787884238367020}
   inventorySlotPrefab: {fileID: 8519628681713759078, guid: 5ccd7b7edea02cc4aac5f6aca9d4eb33,
     type: 3}
+  rayInteractor: {fileID: 0}
   iconSavePath: Assets/Icons
 --- !u!1 &1394281072107030281
 GameObject:
@@ -1039,7 +1040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.002848887, y: -0.000105559826}
+  m_AnchoredPosition: {x: -0.002848887, y: -0.17041935}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5391390108086751689
@@ -1342,7 +1343,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 67088334827730313}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9997776
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

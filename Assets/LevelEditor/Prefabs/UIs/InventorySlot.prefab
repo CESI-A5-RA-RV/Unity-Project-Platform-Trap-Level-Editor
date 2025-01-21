@@ -257,12 +257,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1.2544932, z: 1}
+  m_Center: {x: 0, y: -0.12724723, z: 0}
 --- !u!54 &3572475829830906370
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -372,10 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
-  rayInteractor: {fileID: 0}
-  rightGrabAction: {fileID: 15759602096507913, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
-  inventory: {fileID: 0}
 --- !u!65 &6714665722979888206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -395,8 +391,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 100.04915, y: 135.88004, z: 9.999999}
+  m_Center: {x: -0.000000010288486, y: 12.088372, z: -0.000000027863802}
 --- !u!114 &1142336489094888277
 MonoBehaviour:
   m_ObjectHideFlags: 0
