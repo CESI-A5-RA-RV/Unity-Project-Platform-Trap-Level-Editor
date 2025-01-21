@@ -844,22 +844,22 @@ PrefabInstance:
     - target: {fileID: 897116228376123296, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 897116228376123296, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 897116228376123296, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 897116228376123296, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 997658269550397295, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
@@ -989,7 +989,7 @@ PrefabInstance:
     - target: {fileID: 4536988664969435734, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5519415877859752812, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
@@ -1029,42 +1029,42 @@ PrefabInstance:
     - target: {fileID: 5801394313419030987, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5801394313419030987, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5801394313419030987, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 125
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5801394313419030987, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -67.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6374338121089496894, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6374338121089496894, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6374338121089496894, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 156.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6374338121089496894, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8216269635522180972, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
@@ -1089,22 +1089,22 @@ PrefabInstance:
     - target: {fileID: 9141356017618638586, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9141356017618638586, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9141356017618638586, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 43.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9141356017618638586, guid: 24d1e8e2e8634f0439635c71893c6232,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2881,6 +2881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Device Simulator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
