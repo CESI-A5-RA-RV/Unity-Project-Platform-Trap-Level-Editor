@@ -1955,6 +1955,7 @@ GameObject:
   - component: {fileID: 580622544}
   - component: {fileID: 580622546}
   - component: {fileID: 580622545}
+  - component: {fileID: 580622547}
   m_Layer: 0
   m_Name: Preview
   m_TagString: Untagged
@@ -2020,6 +2021,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580622543}
   m_CullTransparentMesh: 1
+--- !u!114 &580622547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580622543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c845749916d71884fa4ccd6344ef5260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewCamera: {fileID: 1442550468}
+  levelLoadingZone: {fileID: 1007767938}
+  buildingZone: {fileID: 1312628421}
 --- !u!1 &594945000
 GameObject:
   m_ObjectHideFlags: 0

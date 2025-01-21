@@ -19,6 +19,7 @@ public class LevelPreviewLoader : MonoBehaviour
 
         previewCamera.transform.position = levelLoadingZone.position;
         previewCamera.transform.rotation = levelLoadingZone.rotation;
+        LoadLevel();
     }
 
     private List<ElementData> GetElementsFromBuildingZone()
@@ -37,15 +38,15 @@ public class LevelPreviewLoader : MonoBehaviour
                     elementType = cleanName,
                     position = new Vector3Data
                     {
-                        x = child.localPosition.x,
-                        y = child.localPosition.y,
-                        z = child.localPosition.z
+                        x = child.localPosition.x * 5f,
+                        y = child.localPosition.y * 5f,
+                        z = child.localPosition.z * 5f
                     },
                     size = new Vector3Data
                     {
-                        x = child.localScale.x,
-                        y = child.localScale.y,
-                        z = child.localScale.z
+                        x = child.localScale.x * 5f,
+                        y = child.localScale.y * 5f,
+                        z = child.localScale.z * 5f
                     },
                     rotation = new Vector3Data
                     {
