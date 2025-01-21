@@ -29,7 +29,6 @@ public class DragAndDropManager : MonoBehaviour
         {
             Debug.LogError("Right Grab Action is not set.");
         }
-        inventoryRayInteractor.enabled = true;
     }
 
     private void OnDestroy()

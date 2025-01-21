@@ -191,18 +191,18 @@ public class LevelEditorManager : MonoBehaviour
 
     public void SaveCurrentLevel()
     {
+        if (currentEditingLevel == null)
+        {
+            DisplayMessage("No level currently being edited!", true);
+            return;
+        }
+
         if (levelNameInputField != null && !string.IsNullOrWhiteSpace(levelNameInputField.text))
         {
             currentEditingLevel.levelName = levelNameInputField.text.Trim();
         }
 
         currentEditingLevel.elements = GetElementsFromBuildingZone();
-
-        if (currentEditingLevel == null)
-        {
-            DisplayMessage("No level currently being edited!", true);
-            return;
-        }
 
         if (currentEditingLevel.elements.Count == 0 || !HasRequiredElements(currentEditingLevel.elements))
         {
