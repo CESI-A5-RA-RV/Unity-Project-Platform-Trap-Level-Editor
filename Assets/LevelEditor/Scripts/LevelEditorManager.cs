@@ -65,7 +65,6 @@ public class LevelEditorManager : MonoBehaviour
 
         movingElement.anchoredPosition = movingElementOriginalPosition + new Vector2(0, 127);
 
-        // Clear the message display
         messageDisplay.text = "";
     }
 
@@ -165,14 +164,14 @@ public class LevelEditorManager : MonoBehaviour
                 GameObject instance = Instantiate(prefab, buildingZone);
                 // Adjust position and scale for reduced representation
                 instance.transform.localPosition = new Vector3(
-                    element.position.x / 5f,
-                    element.position.y / 5f,
-                    element.position.z / 5f
+                    element.position.x,
+                    element.position.y,
+                    element.position.z
                 );
                 instance.transform.localScale = new Vector3(
-                    element.size.x / 5f,
-                    element.size.y / 5f,
-                    element.size.z / 5f
+                    element.size.x,
+                    element.size.y,
+                    element.size.z
                 );
                 instance.transform.localRotation = Quaternion.Euler(new Vector3(
                     element.rotation.x,
@@ -257,15 +256,15 @@ public class LevelEditorManager : MonoBehaviour
                     elementType = cleanName,
                     position = new Vector3Data
                     {
-                        x = child.localPosition.x * 5f,
-                        y = child.localPosition.y * 5f,
-                        z = child.localPosition.z * 5f
+                        x = child.localPosition.x ,
+                        y = child.localPosition.y,
+                        z = child.localPosition.z
                     },
                     size = new Vector3Data
                     {
-                        x = child.localScale.x * 5f,
-                        y = child.localScale.y * 5f,
-                        z = child.localScale.z * 5f
+                        x = child.localScale.x,
+                        y = child.localScale.y,
+                        z = child.localScale.z
                     },
                     rotation = new Vector3Data
                     {

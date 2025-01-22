@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 
 public class DragAndDropManager : MonoBehaviour
 {
-    public XRRayInteractor rayInteractor; // Ray interactor for detecting inventory slots
-    public InputActionReference rightGrabAction; // Input action for grab
-    public GameObject inventory; // Inventory GameObject
+    public XRRayInteractor rayInteractor; 
+    public InputActionReference rightGrabAction;
+    public GameObject inventory;
 
-    private GameObject currentHoveredSlot; // The currently hovered inventory slot
-    private GameObject spawnedObject; // The spawned prefab
+    private GameObject currentHoveredSlot;
+    private GameObject spawnedObject;
     private bool isHovering = false;
 
     void Start()
@@ -42,7 +42,6 @@ public class DragAndDropManager : MonoBehaviour
 
     void Update()
     {
-        // Check if the ray is hovering over an inventory slot
         isHovering = CheckRayHover();
     }
 
@@ -55,7 +54,6 @@ public class DragAndDropManager : MonoBehaviour
             if (hit.transform.CompareTag("UIElement"))
             {
                 currentHoveredSlot = hit.transform.gameObject;
-                Debug.Log("Hovering over slot: " + currentHoveredSlot.GetComponent<DragAndDropHandler>().prefab.name);
                 return true;
             }
         }
@@ -70,7 +68,6 @@ public class DragAndDropManager : MonoBehaviour
             DragAndDropHandler slotHandler = currentHoveredSlot.GetComponent<DragAndDropHandler>();
             if (slotHandler != null && slotHandler.prefab != null)
             {
-                Debug.Log("Spawning prefab: " + slotHandler.prefab.name);
                 SpawnObject(slotHandler.prefab);
                 DeactivateInventory();
             }
@@ -94,11 +91,9 @@ public class DragAndDropManager : MonoBehaviour
     {
         Transform attachTransform = rayInteractor.attachTransform;
 
-        // Instantiate the prefab at the interactor's position and rotation
         spawnedObject = Instantiate(prefabToSpawn, attachTransform.position, attachTransform.rotation);
         Debug.Log("Spawned object: " + spawnedObject.name);
 
-        // Ensure it has XRGrabInteractable
         XRGrabInteractable grabInteractable = spawnedObject.GetComponent<XRGrabInteractable>();
         if (grabInteractable == null)
         {

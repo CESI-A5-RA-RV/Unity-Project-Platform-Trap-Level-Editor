@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class SetIn : MonoBehaviour
+public class SetInventory : MonoBehaviour
 {
     public GameObject Inventory;
     public GameObject LeftAnchor;

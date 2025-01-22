@@ -38,15 +38,15 @@ public class LevelPreviewLoader : MonoBehaviour
                     elementType = cleanName,
                     position = new Vector3Data
                     {
-                        x = child.localPosition.x * 5f,
-                        y = child.localPosition.y * 5f,
-                        z = child.localPosition.z * 5f
+                        x = child.localPosition.x,
+                        y = child.localPosition.y,
+                        z = child.localPosition.z
                     },
                     size = new Vector3Data
                     {
-                        x = child.localScale.x * 5f,
-                        y = child.localScale.y * 5f,
-                        z = child.localScale.z * 5f
+                        x = child.localScale.x ,
+                        y = child.localScale.y,
+                        z = child.localScale.z
                     },
                     rotation = new Vector3Data
                     {
@@ -66,6 +66,7 @@ public class LevelPreviewLoader : MonoBehaviour
 
     public void LoadLevel()
     {
+        Debug.Log("The preview has been loaded");
         ClearExistingElements();
 
         List<Transform> levelTransforms = new List<Transform>();
