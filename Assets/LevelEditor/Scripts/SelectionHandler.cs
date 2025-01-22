@@ -68,7 +68,6 @@ public class SelectionHandler : MonoBehaviour
     void Update()
     {
         UpdateRayColor();
-        // CheckProximityForPieMenu();
     }
 
     private void OnToggleSelectionMode(InputAction.CallbackContext context)
@@ -77,7 +76,7 @@ public class SelectionHandler : MonoBehaviour
         if (!isSelectionModeActive)
         {
             Debug.Log("Clearing all selections since selection mode is off.");
-            ClearAllSelections(); // Deselect all objects when switching to single-selection mode
+            ClearAllSelections();
         }
 
         Debug.Log(isSelectionModeActive ? "Selection Mode Activated" : "Selection Mode Deactivated");

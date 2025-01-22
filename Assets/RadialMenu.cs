@@ -32,6 +32,7 @@ public class RadialMenu : MonoBehaviour
 
     //public UnityEvent<int> OnPartSelected;
     public ObjectLockManager objectLockManager;
+    public MobilePlatformConfigurator mobilePlatformConfigurator;
 
     public List<RadialPartData> radialPartDataList = new List<RadialPartData>();
 
@@ -209,31 +210,40 @@ public class RadialMenu : MonoBehaviour
         if (IsRadialMenuActive && currentSelectedRadialPart >= 0)
         {
             Debug.Log($"Selected Radial Part: {radialPartDataList[currentSelectedRadialPart].name}");
-            //OnPartSelected.Invoke(currentSelectedRadialPart);
 
-            if (currentSelectedRadialPart == 0) // Assuming the first radial part corresponds to the lock functionality
+            if (currentSelectedRadialPart == 0) 
             {
-                objectLockManager.ToggleLock(targetObject);  // Call ToggleLock from ObjectLockManager
+                objectLockManager.ToggleLock(targetObject);
 
-                // Change the icon based on the lock state
                 if (objectLockManager.IsLocked)
                 {
-                    // Update the icon to unlockedSprite
                     radialPartDataList[currentSelectedRadialPart].icon = unlockedSprite;
                 }
                 else
                 {
-                    // Update the icon to lockedSprite
                     radialPartDataList[currentSelectedRadialPart].icon = lockedSprite;
                 }
                 SpawnRadialPart();
             }
-            else if (currentSelectedRadialPart == 1) // New addition: Delete object on selection
+            else if (currentSelectedRadialPart == 1) // Delete object on selection
             {
                 if (targetObject != null)
                 {
                     Destroy(targetObject);
                     ToggleMenu();
+                }
+            }
+            else if (currentSelectedRadialPart == 2)
+            {
+                if (targetObject != null && mobilePlatformConfigurator != null)
+                {
+                    mobilePlatformConfigurator.Initialize(targetObject);
+                    mobilePlatformConfigurator.gameObject.SetActive(true);
+                    ToggleMenu();
+                }
+                else
+                {
+                    Debug.LogWarning("Target object or MobilePlatformConfigurator is missing!");
                 }
             }
         }

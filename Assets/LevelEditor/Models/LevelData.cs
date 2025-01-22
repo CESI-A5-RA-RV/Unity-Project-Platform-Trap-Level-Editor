@@ -8,7 +8,6 @@ public class MultiLevelData
     public List<LevelData> levels;
 }
 
-
 [System.Serializable]
 public class LevelData
 {
@@ -25,7 +24,21 @@ public class ElementData
     public Vector3Data position;
     public Vector3Data size;
     public Vector3Data rotation;
-    public List<Parameter> parameters; // For element-specific data
+    public List<Parameter> parameters;
+
+    public float GetParameter(string key, float defaultValue = 0)
+    {
+        if (parameters != null)
+        {
+            foreach (var parameter in parameters)
+            {
+                if (parameter.key == key)
+                    return parameter.value;
+            }
+        }
+
+        return defaultValue;
+    }
 }
 
 [System.Serializable]

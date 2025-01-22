@@ -84,16 +84,6 @@ public class LevelEditorManager1 : MonoBehaviour
         createLevelButton.onClick.Invoke();
     }
 
-    private void ShowBuildingZone()
-    {
-        buildingZone.gameObject.SetActive(true);
-    }
-
-    private void HideBuildingZone()
-    {
-        ClearBuildingZone();
-    }
-
     public void CreateNewLevel()
     {
         currentPanel = createLevelPanel;
@@ -116,38 +106,6 @@ public class LevelEditorManager1 : MonoBehaviour
         PopulateDropdownWithLevels();
 
         ShowBuildingZone();
-    }
-
-    private void PopulateDropdownWithLevels()
-    {
-        levelDropdown.ClearOptions();
-
-        List<string> levelNames = new List<string> { "Choose your level" };
-
-        foreach (var level in multiLevelData.levels)
-        {
-            levelNames.Add(level.levelName);
-        }
-
-        levelDropdown.AddOptions(levelNames);
-
-        levelDropdown.value = 0;
-
-        levelDropdown.onValueChanged.RemoveAllListeners();
-        levelDropdown.onValueChanged.AddListener(OnDropdownLevelSelected);
-    }
-
-    private void OnDropdownLevelSelected(int index)
-    {
-        Debug.Log($"OnDropdownLevelSelected: {index}");
-        if (index < 0 || index >= multiLevelData.levels.Count)
-        {
-            Debug.LogError("Invalid level selected.");
-            return;
-        }
-
-        int selectedLevelId = multiLevelData.levels[index].id;
-        EditExistingLevel(selectedLevelId);
     }
 
     public void EditExistingLevel(int levelId)
@@ -229,25 +187,6 @@ public class LevelEditorManager1 : MonoBehaviour
         DeactivateAllPanels();
     }
 
-    public void ExitEditMode()
-    {
-        Debug.Log("Exiting edit mode...");
-        HideBuildingZone();
-        ClearBuildingZone();
-        DeactivateAllPanels();
-    }
-
-    private void ClearBuildingZone()
-    {
-        foreach (Transform child in buildingZone)
-        {
-            if (child.CompareTag("Platform") || child.CompareTag("Trap"))
-            {
-                Destroy(child.gameObject);
-            }
-        }
-    }
-
     private List<ElementData> GetElementsFromBuildingZone()
     {
         List<ElementData> elements = new List<ElementData>();
@@ -280,20 +219,12 @@ public class LevelEditorManager1 : MonoBehaviour
                         y = child.localRotation.eulerAngles.y,
                         z = child.localRotation.eulerAngles.z
                     },
-                    parameters = new List<Parameter>()
+                    parameters = GetParametersFromComponent(child.gameObject)
                 };
-
                 elements.Add(elementData);
             }
         }
-
         return elements;
-    }
-
-    public void DisplayMessage(string message, bool isError)
-    {
-        messageDisplay.color = isError ? Color.red : Color.green;
-        messageDisplay.text = message;
     }
 
     private bool HasRequiredElements(List<ElementData> elements)
@@ -329,6 +260,33 @@ public class LevelEditorManager1 : MonoBehaviour
         return hasStartPlatform && hasEndPlatform;
     }
 
+    private List<Parameter> GetParametersFromComponent(GameObject gameObject)
+    {
+        var parameters = new List<Parameter>();
+        var components = gameObject.GetComponents<MonoBehaviour>();
+
+        foreach (var component in components)
+        {
+            if (component != null && component.GetType().IsSubclassOf(typeof(LevelElement)))
+            {
+                var fields = component.GetType().GetFields();
+
+                foreach (var field in fields)
+                {
+                    var value = field.GetValue(component);
+                    parameters.Add(new Parameter
+                    {
+                        key = field.Name,
+                        value = value != null ? float.Parse(value.ToString()) : 0f
+                });
+                }
+            }
+        }
+
+        return parameters;
+    }
+
+
     private void SaveToJson()
     {
         string json = JsonUtility.ToJson(multiLevelData, true);
@@ -348,6 +306,72 @@ public class LevelEditorManager1 : MonoBehaviour
         {
             Debug.Log($"No levels found at {savePath}. Starting fresh.");
         }
+    }
+    private void ClearBuildingZone()
+    {
+        foreach (Transform child in buildingZone)
+        {
+            if (child.CompareTag("Platform") || child.CompareTag("Trap"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    private void ShowBuildingZone()
+    {
+        buildingZone.gameObject.SetActive(true);
+    }
+
+    private void HideBuildingZone()
+    {
+        ClearBuildingZone();
+    }
+
+    private void PopulateDropdownWithLevels()
+    {
+        levelDropdown.ClearOptions();
+
+        List<string> levelNames = new List<string> { "Choose your level" };
+
+        foreach (var level in multiLevelData.levels)
+        {
+            levelNames.Add(level.levelName);
+        }
+
+        levelDropdown.AddOptions(levelNames);
+
+        levelDropdown.value = 0;
+
+        levelDropdown.onValueChanged.RemoveAllListeners();
+        levelDropdown.onValueChanged.AddListener(OnDropdownLevelSelected);
+    }
+
+    private void OnDropdownLevelSelected(int index)
+    {
+        Debug.Log($"OnDropdownLevelSelected: {index}");
+        if (index < 0 || index >= multiLevelData.levels.Count)
+        {
+            Debug.LogError("Invalid level selected.");
+            return;
+        }
+
+        int selectedLevelId = multiLevelData.levels[index].id;
+        EditExistingLevel(selectedLevelId);
+    }
+
+    public void ExitEditMode()
+    {
+        Debug.Log("Exiting edit mode...");
+        HideBuildingZone();
+        ClearBuildingZone();
+        DeactivateAllPanels();
+    }
+
+    public void DisplayMessage(string message, bool isError)
+    {
+        messageDisplay.color = isError ? Color.red : Color.green;
+        messageDisplay.text = message;
     }
 
     private void OnPanelSwitchRequested(GameObject panel, Button button, string mode)
@@ -419,7 +443,6 @@ public class LevelEditorManager1 : MonoBehaviour
 
         Debug.Log($"Panel {panel.name} activated.");
     }
-
 
     private void DeactivateAllPanels()
     {

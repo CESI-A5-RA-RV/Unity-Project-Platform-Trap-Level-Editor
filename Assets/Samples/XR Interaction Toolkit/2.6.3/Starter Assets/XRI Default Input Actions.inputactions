@@ -3034,7 +3034,7 @@
                 {
                     "name": "",
                     "id": "b44aa038-788a-482a-84e9-8df6647e1734",
-                    "path": "<XRController>/menuButton",
+                    "path": "<XRController>{LeftHand}/menuButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

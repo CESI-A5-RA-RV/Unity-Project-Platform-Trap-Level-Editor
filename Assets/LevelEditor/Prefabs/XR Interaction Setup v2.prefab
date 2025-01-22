@@ -703,11 +703,11 @@ MonoBehaviour:
   m_PlayAudioClipOnHoverCanceled: 0
   m_AudioClipForOnHoverCanceled: {fileID: 0}
   m_AllowHoverAudioWhileSelecting: 1
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.6
   m_HapticSelectEnterDuration: 0
-  m_PlayHapticsOnSelectExited: 0
-  m_HapticSelectExitIntensity: 0
+  m_PlayHapticsOnSelectExited: 1
+  m_HapticSelectExitIntensity: 0.3
   m_HapticSelectExitDuration: 0
   m_PlayHapticsOnSelectCanceled: 0
   m_HapticSelectCancelIntensity: 0
@@ -782,6 +782,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5604499016886036775}
+  - {fileID: 8048718679940130431}
   m_Father: {fileID: 2911720260310526911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8382092701445374749
@@ -794,7 +795,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2644,11 +2645,11 @@ MonoBehaviour:
   m_PlayAudioClipOnHoverCanceled: 0
   m_AudioClipForOnHoverCanceled: {fileID: 0}
   m_AllowHoverAudioWhileSelecting: 1
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.6
   m_HapticSelectEnterDuration: 0
-  m_PlayHapticsOnSelectExited: 0
-  m_HapticSelectExitIntensity: 0
+  m_PlayHapticsOnSelectExited: 1
+  m_HapticSelectExitIntensity: 0.3
   m_HapticSelectExitDuration: 0
   m_PlayHapticsOnSelectCanceled: 0
   m_HapticSelectCancelIntensity: 0
@@ -2732,6 +2733,8 @@ GameObject:
   - component: {fileID: 760905876341087788}
   - component: {fileID: 4317086506736341398}
   - component: {fileID: 7126882336292980727}
+  - component: {fileID: 7230713287898309464}
+  - component: {fileID: 2052761959383121870}
   m_Layer: 0
   m_Name: Left Controller
   m_TagString: Untagged
@@ -3070,6 +3073,37 @@ MonoBehaviour:
   - groupMember: {fileID: 8304189346769862986}
     overrideGroupMembers:
     - {fileID: 6336532874747170190}
+--- !u!114 &7230713287898309464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5626434653781120655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7f764a48e50e94f945aac7f522f190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleSelectionModeAction: {fileID: -7425013260317970697, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  selectObjectAction: {fileID: -7935140944889638113, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  selectionMaterial: {fileID: 2100000, guid: f5de7b248861c2649822854e8dde9814, type: 2}
+--- !u!114 &2052761959383121870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5626434653781120655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad07cffa8a4721498a589a52dcfa274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockIconPrefab: {fileID: 3002611579027311661, guid: 48f72c5b6ed3be94195d2de83fd80286,
+    type: 3}
 --- !u!1 &5816613415106077083
 GameObject:
   m_ObjectHideFlags: 0
@@ -3861,6 +3895,37 @@ MonoBehaviour:
   m_UIHoverExited:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &7767346098879189406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8048718679940130431}
+  m_Layer: 2
+  m_Name: MainMenuAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8048718679940130431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7767346098879189406}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4128380682529186014}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8228701791376068763
 GameObject:
   m_ObjectHideFlags: 0
@@ -3963,7 +4028,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 4294967295
   m_AttachTransform: {fileID: 6821980299418338861}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -4173,7 +4238,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 4
@@ -5035,6 +5100,7 @@ GameObject:
   - component: {fileID: 5285399314418905671}
   - component: {fileID: 5478275512982419243}
   - component: {fileID: 5242190809436232081}
+  - component: {fileID: 7220840079796438774}
   m_Layer: 0
   m_Name: Right Controller
   m_TagString: Untagged
@@ -5373,6 +5439,25 @@ MonoBehaviour:
   - groupMember: {fileID: 4624873256742081814}
     overrideGroupMembers:
     - {fileID: 4931624916875099642}
+--- !u!114 &7220840079796438774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8829750414653600057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6c7fbb8c3eb10489e74b98a1b5ca18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleDeleteModeAction: {fileID: 8977606779580512298, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  deleteObjectAction: {fileID: 2929152896991450423, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  deleteMaterial: {fileID: 2100000, guid: 93fe5fe6e7e968e4286f9e07acb36e14, type: 2}
+  validationDialog: {fileID: 0}
+  selectionHandler: {fileID: 7230713287898309464}
 --- !u!1 &8886149014176753277
 GameObject:
   m_ObjectHideFlags: 0
