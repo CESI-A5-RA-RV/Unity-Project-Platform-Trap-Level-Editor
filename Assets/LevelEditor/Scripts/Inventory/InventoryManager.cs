@@ -8,12 +8,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class InventoryManager : MonoBehaviour
 {
-    public GameObject content; // Content GameObject in the ScrollView
+    public GameObject content;
     public Button platformsButton;
     public Button trapsButton;
-    public GameObject inventorySlotPrefab; // Assign your InventorySlot prefab in the Inspector
-    public XRRayInteractor rayInteractor; // The ray interactor from the controller
-    public string iconSavePath = "Assets/Icons"; // Path to save thumbnails
+    public GameObject inventorySlotPrefab;
+    public XRRayInteractor rayInteractor;
+    public string iconSavePath = "Assets/Icons";
 
     void Start()
     {

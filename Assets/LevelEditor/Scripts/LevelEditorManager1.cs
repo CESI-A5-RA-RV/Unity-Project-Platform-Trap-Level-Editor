@@ -18,7 +18,7 @@ public class LevelEditorManager1 : MonoBehaviour
     public Button previewLevelButton;
 
     public TMP_Text messageDisplay;
-    public GameObject validationPanel; 
+    public GameObject validationPanel;
     public TMP_Text validationMessage;
     public Button validationConfirmButton;
     public Button validationCancelButton;
@@ -28,9 +28,9 @@ public class LevelEditorManager1 : MonoBehaviour
     private GameObject targetPanel;
     private Button targetButton;
 
-    private string currentMode = ""; 
+    private string currentMode = "";
 
-    public Transform buildingZone; 
+    public Transform buildingZone;
     private TMP_InputField levelNameInputField;
     private TMP_Dropdown levelDropdown;
 
@@ -122,13 +122,17 @@ public class LevelEditorManager1 : MonoBehaviour
     {
         levelDropdown.ClearOptions();
 
-        List<string> levelNames = new List<string>();
+        List<string> levelNames = new List<string> { "Choose your level" };
+
         foreach (var level in multiLevelData.levels)
         {
             levelNames.Add(level.levelName);
         }
 
         levelDropdown.AddOptions(levelNames);
+
+        levelDropdown.value = 0;
+
         levelDropdown.onValueChanged.RemoveAllListeners();
         levelDropdown.onValueChanged.AddListener(OnDropdownLevelSelected);
     }
@@ -167,7 +171,6 @@ public class LevelEditorManager1 : MonoBehaviour
             if (prefab)
             {
                 GameObject instance = Instantiate(prefab, buildingZone);
-                // Adjust position and scale for reduced representation
                 instance.transform.localPosition = new Vector3(
                     element.position.x,
                     element.position.y,
@@ -223,14 +226,15 @@ public class LevelEditorManager1 : MonoBehaviour
         DisplayMessage($"Level saved: {currentEditingLevel.levelName}", false);
 
         HideBuildingZone();
+        DeactivateAllPanels();
     }
 
     public void ExitEditMode()
     {
         Debug.Log("Exiting edit mode...");
         HideBuildingZone();
-        ActivatePanel(previewLevelPanel, previewLevelButton);
-        previewLevelButton.onClick.Invoke();
+        ClearBuildingZone();
+        DeactivateAllPanels();
     }
 
     private void ClearBuildingZone()
@@ -380,50 +384,63 @@ public class LevelEditorManager1 : MonoBehaviour
     private void CancelPanelSwitch()
     {
         validationPanel.SetActive(false);
-
+        DisplayMessage("", false);
         targetPanel = null;
         targetButton = null;
     }
 
-    public void ActivatePanel(GameObject panel, Button associatedButton)
+    private void ActivatePanel(GameObject panel, Button button)
     {
-        if (!panelButtonMap.ContainsKey(panel))
-        {
-            Debug.LogWarning("Panel not mapped to a button.");
-            return;
-        }
-
-        previousPanel = currentPanel;
-
+        DisplayMessage($"", false);
         DeactivateAllPanels();
+        previousPanel = currentPanel;
+        currentPanel = panel;
+
         panel.SetActive(true);
 
-        associatedButton = panelButtonMap[panel];
-        associatedButton.interactable = false;
-
-        foreach (var button in panelButtonMap.Values)
+        // Update the current mode based on the panel being activated
+        if (panel == createLevelPanel)
         {
-            if (button != associatedButton)
-            {
-                button.interactable = true;
-            }
+            currentMode = "creating";
+        }
+        else if (panel == editLevelPanel)
+        {
+            currentMode = "editing";
+        }
+        else if (panel == previewLevelPanel)
+        {
+            currentMode = "previewing";
+            // Display the message for preview mode
+            DisplayMessage($"You are currently in {currentMode} mode.", false);
         }
 
-        currentPanel = panel;
+        button.interactable = false;
+        panelButtonMap[panel].interactable = false;
+
+        Debug.Log($"Panel {panel.name} activated.");
     }
 
-    public void GoBackToPreviousPanel()
-    {
-        if (previousPanel != null && panelButtonMap.ContainsKey(previousPanel))
-        {
-            ActivatePanel(previousPanel, panelButtonMap[previousPanel]);
-        }
-    }
 
     private void DeactivateAllPanels()
     {
         createLevelPanel.SetActive(false);
         editLevelPanel.SetActive(false);
         previewLevelPanel.SetActive(false);
+
+        createLevelButton.interactable = true;
+        editLevelButton.interactable = true;
+        previewLevelButton.interactable = true;
+    }
+
+    public void GoBackToPreviousPanel()
+    {
+        if (previousPanel != null)
+        {
+            ActivatePanel(previousPanel, panelButtonMap[previousPanel]);
+        }
+        else
+        {
+            Debug.LogWarning("No previous panel to go back to.");
+        }
     }
 }

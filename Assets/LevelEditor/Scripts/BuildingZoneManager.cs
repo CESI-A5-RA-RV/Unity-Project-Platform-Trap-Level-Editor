@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.XR.CoreUtils;
 using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections.Generic;
 
 public class BuildingZoneManager : MonoBehaviour
 {
@@ -68,5 +69,76 @@ public class BuildingZoneManager : MonoBehaviour
 
         // Return the snapped rotation as a Quaternion
         return Quaternion.Euler(snappedX, snappedY, snappedZ);
+    }
+
+    public void ClearBuildingZone()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void PopulateBuildingZone(LevelData levelData)
+    {
+        foreach (var element in levelData.elements)
+        {
+            GameObject prefab = Resources.Load<GameObject>($"Prefabs/Traps/{element.elementType}") ??
+                                Resources.Load<GameObject>($"Prefabs/Platforms/{element.elementType}");
+            if (prefab)
+            {
+                GameObject instance = Instantiate(prefab, transform);
+                instance.transform.localPosition = new Vector3(
+                    element.position.x,
+                    element.position.y,
+                    element.position.z
+                );
+                instance.transform.localScale = new Vector3(
+                    element.size.x,
+                    element.size.y,
+                    element.size.z
+                );
+                instance.transform.localRotation = Quaternion.Euler(new Vector3(
+                    element.rotation.x,
+                    element.rotation.y,
+                    element.rotation.z
+                ));
+            }
+        }
+    }
+
+    public List<ElementData> GetElementsFromBuildingZone()
+    {
+        List<ElementData> elements = new List<ElementData>();
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Platform") || child.CompareTag("Trap"))
+            {
+                ElementData elementData = new ElementData
+                {
+                    elementType = child.name.Replace("(Clone)", "").Trim(),
+                    position = new Vector3Data
+                    {
+                        x = child.localPosition.x,
+                        y = child.localPosition.y,
+                        z = child.localPosition.z
+                    },
+                    size = new Vector3Data
+                    {
+                        x = child.localScale.x,
+                        y = child.localScale.y,
+                        z = child.localScale.z
+                    },
+                    rotation = new Vector3Data
+                    {
+                        x = child.localRotation.eulerAngles.x,
+                        y = child.localRotation.eulerAngles.y,
+                        z = child.localRotation.eulerAngles.z
+                    }
+                };
+                elements.Add(elementData);
+            }
+        }
+        return elements;
     }
 }
