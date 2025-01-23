@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6806981693496910149}
   - component: {fileID: 7047292028631128582}
   - component: {fileID: 8042702870885518681}
-  - component: {fileID: 3240208145773787030}
   - component: {fileID: 661015783736478333}
   - component: {fileID: -411713300754968728}
   - component: {fileID: 8047428107838107840}
@@ -112,20 +111,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3240208145773787030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7549812893009705777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55dd4df4f36864545b71175d7651385f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stopDuration: 3
-  respawnDelay: 4
 --- !u!82 &661015783736478333
 AudioSource:
   m_ObjectHideFlags: 0
@@ -403,10 +388,10 @@ MonoBehaviour:
   m_SmoothRotationAmount: 8
   m_TightenRotation: 0.1
   m_TrackScale: 1
-  m_SmoothScale: 0
+  m_SmoothScale: 1
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2

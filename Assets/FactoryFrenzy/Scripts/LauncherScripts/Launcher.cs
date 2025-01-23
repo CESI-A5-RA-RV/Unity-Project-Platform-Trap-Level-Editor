@@ -152,7 +152,6 @@ public class Launcher : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Visualize detection radius
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
