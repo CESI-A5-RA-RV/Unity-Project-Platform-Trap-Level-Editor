@@ -23,6 +23,10 @@ public class LevelEditorManager1 : MonoBehaviour
     public Button validationConfirmButton;
     public Button validationCancelButton;
 
+    public AudioSource audioSource; // Reference to the AudioSource component
+    public AudioClip errorSound;    // Audio clip to play for errors
+    public AudioClip successSound;    // Audio clip to play for success
+
     private GameObject previousPanel;
     private GameObject currentPanel;
     private GameObject targetPanel;
@@ -372,6 +376,16 @@ public class LevelEditorManager1 : MonoBehaviour
     {
         messageDisplay.color = isError ? Color.red : Color.green;
         messageDisplay.text = message;
+
+        if (isError && audioSource != null && errorSound != null)
+        {
+            audioSource.PlayOneShot(errorSound);
+        }
+
+        if (!isError && audioSource != null && successSound != null)
+        {
+            audioSource.PlayOneShot(successSound);
+        }
     }
 
     private void OnPanelSwitchRequested(GameObject panel, Button button, string mode)

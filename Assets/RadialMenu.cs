@@ -30,6 +30,9 @@ public class RadialMenu : MonoBehaviour
     public Sprite lockedSprite;    // Public variable for the locked icon
     public Sprite unlockedSprite;  // Public variable for the unlocked icon
 
+    public AudioSource audioSource; // Reference to the AudioSource component
+    public AudioClip selectionSound; // Sound to play when a radial part is selected
+
     //public UnityEvent<int> OnPartSelected;
     public ObjectLockManager objectLockManager;
     public MobilePlatformConfigurator mobilePlatformConfigurator;
@@ -196,6 +199,11 @@ public class RadialMenu : MonoBehaviour
             {
                 spawnedParts[i].GetComponent<Image>().color = Color.blue;
                 spawnedParts[i].transform.localScale = 1.1f * Vector2.one;
+
+                if (audioSource != null && selectionSound != null)
+                {
+                    audioSource.PlayOneShot(selectionSound);
+                }
             }
             else
             {
