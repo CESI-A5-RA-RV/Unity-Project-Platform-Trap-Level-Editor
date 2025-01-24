@@ -290,7 +290,6 @@ public class LevelEditorManager1 : MonoBehaviour
         return parameters;
     }
 
-
     private void SaveToJson()
     {
         string json = JsonUtility.ToJson(multiLevelData, true);
@@ -353,6 +352,7 @@ public class LevelEditorManager1 : MonoBehaviour
 
     private void OnDropdownLevelSelected(int index)
     {
+        index = index - 1;
         Debug.Log($"OnDropdownLevelSelected: {index}");
         if (index < 0 || index >= multiLevelData.levels.Count)
         {

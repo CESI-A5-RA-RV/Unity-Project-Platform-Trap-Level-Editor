@@ -59,6 +59,8 @@ public class MobilePlatformConfigurator : MonoBehaviour
             travelTime = movingPlatform.Speed; // Assuming Speed corresponds to travel time
             rangeSlider.value = range;
             travelTimeSlider.value = travelTime;
+            settingsPanel.SetActive(true);
+            errorPanel.SetActive(false);
         }
         else
         {
@@ -114,7 +116,6 @@ public class MobilePlatformConfigurator : MonoBehaviour
         UpdateLineRenderer();
         UpdateUIText();
 
-        // Update the MovingPlatform component's Range
         if (movingPlatform != null)
         {
             movingPlatform.Range = range;
@@ -127,7 +128,6 @@ public class MobilePlatformConfigurator : MonoBehaviour
         travelTime = value;
         UpdateUIText();
 
-        // Update the MovingPlatform component's Speed
         if (movingPlatform != null)
         {
             movingPlatform.Speed = travelTime; // Assuming Speed corresponds to travel time

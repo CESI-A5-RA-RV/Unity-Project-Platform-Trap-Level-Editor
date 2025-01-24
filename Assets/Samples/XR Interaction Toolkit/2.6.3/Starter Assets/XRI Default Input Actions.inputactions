@@ -3005,6 +3005,17 @@
                 },
                 {
                     "name": "",
+                    "id": "e92dd9fb-962e-4593-8c28-42cadfe8b207",
+                    "path": "<XRController>/menuButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fd551d40-1b95-4595-ab57-fffcffe6f4ae",
                     "path": "<XRController>{LeftHand}/triggerPressed",
                     "interactions": "",
